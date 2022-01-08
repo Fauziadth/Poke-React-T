@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Button, Input, Modal } from 'antd';
+import { Alert, Button, Input, Modal } from 'antd';
 import { getPokeDetails } from '../../services/pokeapi';
 import { usePokemonContext } from '../../context/MyPokemonContext';
+import pokeball from '../../img/pokeball-icon.png'
 
 export type CatchModalProps = {
     onClose: () => void;
@@ -15,6 +16,11 @@ const doGacha = (rate: number) => {
     else return false;
 }
 
+const wiggleTime = 1250;
+const getWiggleCount = () => {
+    return Math.floor(Math.random() * 2.5) + 1;
+}
+
 const CatchModal = ({ onClose, onCatch, pokemon }: CatchModalProps) => {
     const [isCatching, setCatching] = useState<boolean>(false);
     const [isCatched, setCatched] = useState<boolean>(false);
@@ -25,19 +31,14 @@ const CatchModal = ({ onClose, onCatch, pokemon }: CatchModalProps) => {
 
     useEffect(() => {
         setCatching(true);
+        const successCatch = doGacha(0.5);
+        const wiggleCount = successCatch ? 3 : getWiggleCount();
         setTimeout(() => {
             setCatching(false)
-            if (doGacha(0.5)) {
-                setCatched(true);
-            }
-        }, 2000);
+            setCatched(successCatch);
+        }, wiggleCount * wiggleTime);
     }, []);
 
-    if (isCatching) return (
-        <React.Fragment>
-            IsCatching
-        </React.Fragment>
-    )
 
     const thisOnCatch = () => {
         if (nickname === "") {
@@ -51,6 +52,10 @@ const CatchModal = ({ onClose, onCatch, pokemon }: CatchModalProps) => {
         }
     }
 
+    if (isCatching) return (
+        <img className={"pokeball"} src={pokeball} alt={'Pokeball'} />
+    )
+
     return (
         <Fragment>
             {isCatched ?
@@ -59,9 +64,9 @@ const CatchModal = ({ onClose, onCatch, pokemon }: CatchModalProps) => {
                     <Input value={nickname} onChange={(e) => {
                         setNickname(e.target.value);
                     }} />
-                    {(nicknameError !== "") && (<div>
-                        {nicknameError}
-                    </div>)}
+                    {(nicknameError !== "") &&
+                        <Alert message={nicknameError} type="error" />
+                    }
                 </Fragment>
                 :
                 <div> Failed to catch !</div>
