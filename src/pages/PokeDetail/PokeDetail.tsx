@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../component/Loading';
 import pokeapi, { getPokeDetails } from '../../services/pokeapi';
 import { getColorType, type_color } from '../../constant';
 import { myPokemonInt, usePokemonContext } from '../../context/MyPokemonContext';
+import CatchModal from './CatchModal';
+import Modal from 'antd/lib/modal/Modal';
 
 export type detailRouteParams = {
     poke_id : string
@@ -24,6 +26,7 @@ const initDetails : getPokeDetails = {
 
 const PokeDetail = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
+    const [isOpenModal, setOpenModal] = useState<boolean>(false);
     const [pokeDetails, setPokeDetails] = useState<getPokeDetails>(initDetails);
     const navigate = useNavigate();
     const { pokemon, setPokemon } = usePokemonContext();
@@ -32,7 +35,6 @@ const PokeDetail = () => {
 
     useEffect(() => {
         if(!params.poke_id) return;
-        // Fetch for pokemon details here
         pokeapi.getPokemonDetail(params.poke_id)
         .then(res => {
             const pokemon : getPokeDetails = res.data.pokemon;
@@ -41,14 +43,24 @@ const PokeDetail = () => {
         })
     }, [])
 
-    const catchPoke = () => {
+    const catchPoke = (nick : string) => {
         const newPoke : myPokemonInt = {
             img : pokeDetails.sprites.front_default,
             name : pokeDetails.name,
-            nickname : "BROOO"
+            nickname : nick
         }
         setPokemon([...pokemon, newPoke]);
     }
+
+    if (isLoading) return (
+        <div>
+            Poke Detail 
+            <Button onClick={() => {navigate(`/`)}}>
+                Back
+            </Button>
+            <Loading/>
+        </div>
+    );
 
     return (
         <div>
@@ -56,8 +68,6 @@ const PokeDetail = () => {
             <Button onClick={() => {navigate(`/`)}}>
                 Back
             </Button>
-            {isLoading ? 
-            <Loading/> :
             <div>
                 <img src={pokeDetails.sprites.front_default} alt={pokeDetails.name}/>
                 {pokeDetails.name}
@@ -67,11 +77,22 @@ const PokeDetail = () => {
                 {pokeDetails.stats.map((s, i) => {
                     return <div key={i}>{`${s.stat.name} ${s.base_stat}`}</div>
                 })}
-                <Button onClick={() => {catchPoke();}}>
+                <Button onClick={() => {setOpenModal(true)}}>
                     Catch
                 </Button>
             </div>
-            }
+            
+            <Modal
+                visible={isOpenModal}
+                footer={null}
+                closable={false}
+                destroyOnClose>
+                <CatchModal
+                    onClose={() => {setOpenModal(false)}}
+                    onCatch={catchPoke}
+                    pokemon={pokeDetails}
+                />
+            </Modal>
         </div>
     );
 }
