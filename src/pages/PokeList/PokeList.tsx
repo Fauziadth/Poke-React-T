@@ -1,14 +1,45 @@
-import React from 'react';
-import { usePokemonContext } from '../../context/MyPokemonContext';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Loading from '../../component/Loading';
+import pokeapi, { getPoke, getPokeResult } from '../../services/pokeapi';
 
 const PokeList = () => {
-    const {pokemon, setPokemon} = usePokemonContext();
+    const [isLoading, setLoading] = useState<boolean>(true);
+    const [pokemonList, setPokemonList] = useState<Array<getPokeResult>>([]);
+    const navigate = useNavigate();
+
+    const goto = (name : string) => {
+        navigate(`/${name}`);
+    }
+
+    useEffect(() => {
+        pokeapi.getPokemonList(151, 0)
+        .then(res => {
+            const pokemon : getPoke = res.data.pokemons;
+            setPokemonList(pokemon.results);
+            setLoading(false);
+        })
+
+    }, [])
+
     return (
         <div>
             Poke List
-            {pokemon}
-            <div onClick={() => {setPokemon("COBBBAAA SET POKEEE")}}>
-                Set pokemon ads
+            {isLoading ? 
+            <Loading/> :
+            <div>
+                {pokemonList.map(poke => {
+                    return (
+                        <div key={poke.id} onClick={() => {goto(poke.name)}}>
+                            <img src={poke.image} alt={`${poke.name} image`}></img>
+                            <div>{poke.name}</div>
+                        </div>
+                    )
+                })}
+            </div>
+            }
+            <div onClick={() => {setLoading(false)}}>
+                Get pokemon
             </div>
         </div>
     );
