@@ -1,13 +1,24 @@
 import React from 'react';
-import { Progress } from 'antd';
+import { Col, Progress, Row } from 'antd';
+import { statsInt } from '../services/pokeapi';
 
 interface StatusProps {
-    value: number
+    stats: statsInt
 }
 
-const StatusBar = ({ value }: StatusProps) => {
+const StatusBar = ({ stats }: StatusProps) => {
     return (
-        <Progress percent={100 * (value / 255)} showInfo={false}/>
+        <Row gutter={6}>
+            <Col span={6}>
+                {stats.stat.name}
+            </Col>
+            <Col span={16}>
+                <Progress percent={100 * (stats.base_stat / 255)} showInfo={false} />
+            </Col>
+            <Col span={2}>
+                {stats.base_stat}
+            </Col>
+        </Row>
     );
 }
 

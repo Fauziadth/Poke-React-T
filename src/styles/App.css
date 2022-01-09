@@ -1,3 +1,10 @@
+.flex {
+  display: flex;
+}
+.flex.center {
+  justify-content: center;
+}
+
 .poke-header {
   background: #FEFEFE;
   border-bottom: 1px solid #AEAEAE;

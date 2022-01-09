@@ -18,9 +18,24 @@ export interface getPoke {
     results: Array<getPokeResult>
 }
 
+export interface statsInt {
+    base_stat: number,
+    stat: {
+        name: string
+    }
+}
+
 export interface getPokeDetails {
     id: number,
     name: string,
+    weight: number,
+    height: number,
+    abilities: Array<{
+        ability: {
+            name: string
+        },
+        is_hidden: boolean
+    }>,
     sprites: {
         front_default: string,
         back_default: string,
@@ -35,12 +50,7 @@ export interface getPokeDetails {
             name: pokemonType
         }
     }>,
-    stats: Array<{
-        base_stat: number,
-        stat: {
-            name: string
-        }
-    }>
+    stats: Array<statsInt>
 }
 
 const pokeapi = {
@@ -83,6 +93,8 @@ const pokeapi = {
             pokemon(name: $name) {
               id
               name
+              weight
+              height
               sprites {
                 front_default,
                 back_default
@@ -102,6 +114,12 @@ const pokeapi = {
                   stat {
                       name
                   }
+              }
+              abilities {
+                  ability {
+                      name
+                  }
+                  is_hidden
               }
             }
         }`;

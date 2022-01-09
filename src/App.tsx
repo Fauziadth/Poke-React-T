@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Button } from 'antd';
 import { Route, Routes } from 'react-router-dom';
 import { myPokemonInt, MyPokemonContext } from './context/MyPokemonContext';
 import MyPoke from './pages/MyPoke/MyPoke';

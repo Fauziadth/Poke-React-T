@@ -3,6 +3,7 @@ import { Alert, Button, Input } from 'antd';
 import { getPokeDetails } from '../../services/pokeapi';
 import { usePokemonContext } from '../../context/MyPokemonContext';
 import pokeball from '../../img/pokeball-icon.png'
+import { capitalizeName } from '../../utils/utlis';
 
 export type CatchModalProps = {
     onClose: () => void;
@@ -53,15 +54,20 @@ const CatchModal = ({ onClose, onCatch, pokemon }: CatchModalProps) => {
     }
 
     if (isCatching) return (
-        <img className={"pokeball"} src={pokeball} alt={'Pokeball'} />
+        <div className='flex center'>
+            <img className={"pokeball"} src={pokeball} alt={'Pokeball'} />
+        </div>
     )
 
     return (
         <Fragment>
             {isCatched ?
                 <Fragment>
-                    <div> Catch ! </div>
-                    <Input value={nickname} onChange={(e) => {
+                    <div className='flex center'><h2>Gotcha !</h2></div>
+                    <Input 
+                        placeholder='Give it a nickname'
+                        value={nickname} 
+                        onChange={(e) => {
                         setNickname(e.target.value);
                     }} />
                     {(nicknameError !== "") &&
@@ -69,9 +75,11 @@ const CatchModal = ({ onClose, onCatch, pokemon }: CatchModalProps) => {
                     }
                 </Fragment>
                 :
-                <div> Failed to catch !</div>
+                <div className='flex center'><h2>{`${capitalizeName(pokemon.name)} has fled !`}</h2></div>
             }
-            <Button onClick={isCatched ? thisOnCatch : onClose}>{isCatched ? "Put in my collection" : "Close"}</Button>
+            <div className='flex center' style={{marginTop : "15px"}}>
+                <Button onClick={isCatched ? thisOnCatch : onClose}>{isCatched ? "Put in my collection" : "Search for more"}</Button>
+            </div>
         </Fragment>
     )
 }
