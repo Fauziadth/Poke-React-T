@@ -1,40 +1,27 @@
-.App {
+.poke-header {
+  background: #FEFEFE;
+  border-bottom: 1px solid #AEAEAE;
+}
+
+.clickable {
+  cursor: pointer;
+}
+.poke-card > div {
+  background: #FEFEFE;
+}
+.poke-card:hover {
+  filter: drop-shadow(0 0 2px #AEAEAE);
+}
+
+.poke-card .ant-card-body,
+.poke-name {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.pokeball-header {
+  height: 50px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 2px #AEAEAE);
 }
 
 .pokeball {
@@ -42,6 +29,12 @@
   transform-origin: bottom center;
   cursor: pointer;
   animation: wiggle 1.25s infinite ease-in-out;
+}
+
+.poke-loading {
+  margin-top: 100px;
+  width: 100px;
+  animation: spin infinite 3s linear;
 }
 
 @keyframes wiggle {
@@ -63,5 +56,13 @@
   
   100% {
     transform: rotate(0deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

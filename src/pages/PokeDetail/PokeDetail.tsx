@@ -7,6 +7,7 @@ import { getColorType } from '../../constant';
 import { myPokemonInt, usePokemonContext } from '../../context/MyPokemonContext';
 import CatchModal from './CatchModal';
 import Modal from 'antd/lib/modal/Modal';
+import StatusBar from '../../component/StatusBar';
 
 export type detailRouteParams = {
     poke_id : string
@@ -52,30 +53,18 @@ const PokeDetail = () => {
         setPokemon([...pokemon, newPoke]);
     }
 
-    if (isLoading) return (
-        <div>
-            Poke Detail 
-            <Button onClick={() => {navigate(`/`)}}>
-                Back
-            </Button>
-            <Loading/>
-        </div>
-    );
+    if (isLoading) return  <Loading/>;
 
     return (
         <div>
-            Poke Detail 
-            <Button onClick={() => {navigate(`/`)}}>
-                Back
-            </Button>
             <div>
                 <img src={pokeDetails.sprites.front_default} alt={pokeDetails.name}/>
                 {pokeDetails.name}
                 {pokeDetails.types.map((t, i) => {
-                    return <Tag color={getColorType(t.type.name)}>{t.type.name}</Tag>
+                    return <Tag key={i} color={getColorType(t.type.name)}>{t.type.name}</Tag>
                 })}
                 {pokeDetails.stats.map((s, i) => {
-                    return <div key={i}>{`${s.stat.name} ${s.base_stat}`}</div>
+                    return <div key={i}>{`${s.stat.name} ${s.base_stat}`} <StatusBar value={s.base_stat}/></div>
                 })}
                 <Button onClick={() => {setOpenModal(true)}}>
                     Catch
