@@ -3,7 +3,7 @@ import { Button, Tag } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../component/Loading';
 import pokeapi, { getPokeDetails } from '../../services/pokeapi';
-import { BASENAME, getColorType } from '../../constant';
+import { getColorType } from '../../constant';
 import { myPokemonInt, usePokemonContext } from '../../context/MyPokemonContext';
 import CatchModal from './CatchModal';
 import Modal from 'antd/lib/modal/Modal';
@@ -55,7 +55,7 @@ const PokeDetail = () => {
     if (isLoading) return (
         <div>
             Poke Detail 
-            <Button onClick={() => {navigate(`${BASENAME}/`)}}>
+            <Button onClick={() => {navigate(`/`)}}>
                 Back
             </Button>
             <Loading/>
@@ -65,7 +65,7 @@ const PokeDetail = () => {
     return (
         <div>
             Poke Detail 
-            <Button onClick={() => {navigate(`${BASENAME}/`)}}>
+            <Button onClick={() => {navigate(`/`)}}>
                 Back
             </Button>
             <div>

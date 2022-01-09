@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../component/Loading';
-import { BASENAME } from '../../constant';
 import pokeapi, { getPoke, getPokeResult } from '../../services/pokeapi';
 
 const PokeList = () => {
@@ -10,7 +9,7 @@ const PokeList = () => {
     const navigate = useNavigate();
 
     const goto = (name : string) => {
-        navigate(`${BASENAME}/${name}`);
+        navigate(`/${name}`);
     }
 
     useEffect(() => {

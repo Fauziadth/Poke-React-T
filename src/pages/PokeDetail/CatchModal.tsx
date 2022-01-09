@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Alert, Button, Input, Modal } from 'antd';
+import { Alert, Button, Input } from 'antd';
 import { getPokeDetails } from '../../services/pokeapi';
 import { usePokemonContext } from '../../context/MyPokemonContext';
 import pokeball from '../../img/pokeball-icon.png'

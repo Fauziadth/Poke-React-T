@@ -4,9 +4,10 @@ import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { BASENAME } from './constant'
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter basename={BASENAME}>
     <App />
   </BrowserRouter>,
   document.getElementById('root')

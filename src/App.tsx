@@ -7,7 +7,6 @@ import PokeDetail from './pages/PokeDetail/PokeDetail';
 import PokeList from './pages/PokeList/PokeList';
 import 'antd/dist/antd.min.css';
 import './styles/App.css';
-import { BASENAME } from './constant';
 
 const getPokemonLocal = () => {
   const poke = localStorage.getItem("myPoke");
@@ -29,11 +28,11 @@ const App = () => {
     <MyPokemonContext.Provider value={{ pokemon, setPokemon: setPokemonCustom }}>
       <div className="App">
         Pokemon
-        <Button onClick={() => { navigate(`${BASENAME}/myPoke`) }}>My Pokemon</Button>
+        <Button onClick={() => { navigate(`/myPoke`) }}>My Pokemon</Button>
         <Routes>
-          <Route path={`${BASENAME}/`} element={<PokeList />} />
-          <Route path={`${BASENAME}/:poke_id`} element={<PokeDetail />} />
-          <Route path={`${BASENAME}/myPoke`} element={<MyPoke />} />
+          <Route path={`/`} element={<PokeList />} />
+          <Route path={`/:poke_id`} element={<PokeDetail />} />
+          <Route path={`/myPoke`} element={<MyPoke />} />
         </Routes>
       </div>
     </MyPokemonContext.Provider>
