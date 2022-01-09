@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../component/Loading';
 import pokeapi, { getPokeDetails } from '../../services/pokeapi';
-import { getColorType, type_color } from '../../constant';
+import { BASENAME, getColorType } from '../../constant';
 import { myPokemonInt, usePokemonContext } from '../../context/MyPokemonContext';
 import CatchModal from './CatchModal';
 import Modal from 'antd/lib/modal/Modal';
@@ -55,7 +55,7 @@ const PokeDetail = () => {
     if (isLoading) return (
         <div>
             Poke Detail 
-            <Button onClick={() => {navigate(`/`)}}>
+            <Button onClick={() => {navigate(`${BASENAME}/`)}}>
                 Back
             </Button>
             <Loading/>
@@ -65,14 +65,14 @@ const PokeDetail = () => {
     return (
         <div>
             Poke Detail 
-            <Button onClick={() => {navigate(`/`)}}>
+            <Button onClick={() => {navigate(`${BASENAME}/`)}}>
                 Back
             </Button>
             <div>
                 <img src={pokeDetails.sprites.front_default} alt={pokeDetails.name}/>
                 {pokeDetails.name}
                 {pokeDetails.types.map((t, i) => {
-                    return <div key={i} style={{backgroundColor : getColorType(t.type.name)}}>{t.type.name}</div>
+                    return <Tag color={getColorType(t.type.name)}>{t.type.name}</Tag>
                 })}
                 {pokeDetails.stats.map((s, i) => {
                     return <div key={i}>{`${s.stat.name} ${s.base_stat}`}</div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../component/Loading';
+import { BASENAME } from '../../constant';
 import pokeapi, { getPoke, getPokeResult } from '../../services/pokeapi';
 
 const PokeList = () => {
@@ -9,7 +10,7 @@ const PokeList = () => {
     const navigate = useNavigate();
 
     const goto = (name : string) => {
-        navigate(`/${name}`);
+        navigate(`${BASENAME}/${name}`);
     }
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const PokeList = () => {
                 {pokemonList.map(poke => {
                     return (
                         <div key={poke.id} onClick={() => {goto(poke.name)}}>
-                            <img src={poke.image} alt={`${poke.name} image`}></img>
+                            <img src={poke.image} alt={`${poke.name}`}/>
                             <div>{poke.name}</div>
                         </div>
                     )

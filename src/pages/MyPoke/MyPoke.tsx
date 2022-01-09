@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../context/MyPokemonContext';
+import { BASENAME } from '../../constant';
 
 const MyPoke = () => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const MyPoke = () => {
                     </Button>
                 </div>
             ))}
-            <Button onClick={() => {navigate(`/`)}}>
+            <Button onClick={() => {navigate(`${BASENAME}/`)}}>
                 Back
             </Button>
         </div>

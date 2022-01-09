@@ -24,3 +24,4 @@ export const type_color = {
 } ;
 
 export const getColorType:any = (color : pokemonType) => (type_color[color])
+export const BASENAME = "poke-react-t";
