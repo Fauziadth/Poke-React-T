@@ -18,3 +18,14 @@ export const MyPokemonContext = createContext<PokemonContent>({
 })
 
 export const usePokemonContext = () => useContext(MyPokemonContext)
+
+export type newPoke = {
+  isNew: boolean;
+  setIsNew: (isNew: boolean) => void
+}
+
+export const NewPokemonContext = createContext<newPoke>({
+  isNew: false, // set a default value
+  setIsNew: () => { },
+})
+export const useNewPokemonContext = () => useContext(NewPokemonContext)

@@ -5,6 +5,22 @@ import Loading from '../../component/Loading';
 import pokeapi, { getPoke, getPokeResult } from '../../services/pokeapi';
 import { capitalizeName } from '../../utils/utlis';
 
+interface PokeListItemProps {
+    poke: getPokeResult
+    onClick: (s: string) => void
+}
+
+const PokeListItem = ({ poke, onClick }: PokeListItemProps) => {
+    return (
+        <Col className="gutter-row" xs={24} sm={12} md={6}>
+            <Card className="poke-card clickable" onClick={() => { onClick(poke.name) }}>
+                <img src={poke.image} alt={`${poke.name}`} />
+                <h3 className='poke-name'>{capitalizeName(poke.name)}</h3>
+            </Card>
+        </Col>
+    )
+}
+
 const PokeList = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
     const [pokemonList, setPokemonList] = useState<Array<getPokeResult>>([]);
@@ -27,15 +43,10 @@ const PokeList = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Row gutter={[16, 16]} style={{padding : "20px"}}>
+        <Row gutter={[16, 16]} style={{ padding: "20px" }}>
             {pokemonList.map(poke => {
                 return (
-                    <Col key={poke.id} className="gutter-row" xs={24} sm={12} md={6}>
-                        <Card key={poke.id} className="poke-card clickable" onClick={() => { goto(poke.name) }}>
-                            <img src={poke.image} alt={`${poke.name}`} />
-                            <h3 className='poke-name'>{capitalizeName(poke.name)}</h3>
-                        </Card>
-                    </Col>
+                    <PokeListItem key={poke.id} poke={poke} onClick={goto}/>
                 )
             })}
         </Row>

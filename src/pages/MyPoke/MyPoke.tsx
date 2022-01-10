@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Button, Card, Col, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { usePokemonContext } from '../../context/MyPokemonContext';
+import { myPokemonInt, usePokemonContext } from '../../context/MyPokemonContext';
 import { capitalizeName } from '../../utils/utlis';
+
+interface MyPokeItemProps {
+    poke: myPokemonInt
+    onRelease: () => void
+    onClickGo: (s: string) => void
+}
+
+const MyPokeItem = ({ poke, onRelease, onClickGo }: MyPokeItemProps) => {
+    return (
+        <Col className="gutter-row" xs={24} sm={12} md={6}>
+            <Card className="poke-card">
+                <img src={poke.img} alt={poke.name} />
+                <h3 className='poke-name'>{`${poke.nickname} (${capitalizeName(poke.name)})`}</h3>
+                <Button onClick={() => { onRelease() }}>
+                    Release
+                </Button>
+                <Button onClick={() => { onClickGo(poke.name) }}>
+                    Catch More
+                </Button>
+            </Card>
+        </Col>
+    )
+}
 
 const MyPoke = () => {
     const navigate = useNavigate();
@@ -23,24 +46,18 @@ const MyPoke = () => {
     )
 
     return (
-        <Row gutter={[16, 16]} style={{ padding: "20px" }}>
-            {pokemon.map((poke, i) => {
-                return (
-                    <Col key={i} className="gutter-row" xs={24} sm={12} md={6}>
-                        <Card key={i} className="poke-card">
-                            <img src={poke.img} alt={poke.name} />
-                            <h3 className='poke-name'>{`${poke.nickname} (${capitalizeName(poke.name)})`}</h3>
-                            <Button onClick={() => { releasePokemon(i) }}>
-                                Release
-                            </Button>
-                            <Button onClick={() => { goto(poke.name) }}>
-                                Catch More
-                            </Button>
-                        </Card>
-                    </Col>
-                )
-            })}
-        </Row>
+        <Fragment>
+            <Row style={{marginTop : "10px"}} justify='center'>
+                <h2>My Pokemon List</h2>
+            </Row>
+            <Row gutter={[16, 16]} style={{ padding: "20px" }}>
+                {pokemon.map((poke, i) => {
+                    return (
+                        <MyPokeItem key={i} poke={poke} onRelease={() => { releasePokemon(i) }} onClickGo={goto} />
+                    )
+                })}
+            </Row>
+        </Fragment>
     );
 }
 
